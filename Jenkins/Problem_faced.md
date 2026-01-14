@@ -1,0 +1,3 @@
+# Problem Faced in jenkins Pipeline
+
+### 1. While running a jenkins pipeline where i have faced and issue it faild on sonarqube stage just because of in the pom of xml file it does not have the dependncy for sonar plugin so basically i was not able to figure out what the error says simply i error log copy and paste to the gpt it told me the issue why is that happend to me 
