@@ -14,13 +14,13 @@ compared to VMs - Better resource utilization - Easy CI/CD integration
 
 ## 2. Difference between Docker and Virtual Machines
 
-  Feature          Docker Containers   Virtual Machines
-  ---------------- ------------------- ------------------
-  Virtualization   OS-level            Hardware-level
-  Startup Time     Seconds             Minutes
-  Resource Usage   Lightweight         Heavy
-  OS               Shares host OS      Separate OS
-  Performance      Near-native         Slightly slower
+Docker and Virtual Machines are both virtualization technologies, but they work differently.
+
+A Virtual Machine (VM) virtualizes the entire hardware. Each VM has its own Guest Operating System, libraries, binaries, and application. It runs on top of a Hypervisor like VMware, VirtualBox, or Hyper-V.
+
+On the other hand, Docker uses containerization. Instead of creating a separate operating system for every application, Docker containers share the host operating system kernel. Each container only includes the application and its required dependencies.
+
+Because Docker doesn't need a separate OS for every application, containers are much lighter, faster, and consume fewer resources than Virtual Machines.
 
 ------------------------------------------------------------------------
 
@@ -88,11 +88,14 @@ docker push username/myimage
 
 ## 7. Difference between CMD and ENTRYPOINT
 
-  CMD                   ENTRYPOINT
-  --------------------- -----------------------
-  Default command       Fixed command
-  Can be overridden     Harder to override
-  Used for parameters   Used for main process
+CMD and ENTRYPOINT are both Dockerfile instructions used to define what command runs when a container starts. The main difference is that CMD provides a default command that can be easily overridden, while ENTRYPOINT defines the main executable and is generally not overridden.
+
+In simple terms:
+
+CMD = Default command (can be replaced).
+ENTRYPOINT = Fixed command (always runs).
+
+In production, ENTRYPOINT is usually used to specify the main application, and CMD is used to provide default arguments to that application.
 
 ------------------------------------------------------------------------
 
@@ -223,10 +226,9 @@ unnecessary files - Use `.dockerignore` - Combine RUN commands
 
 ## 18. Difference between COPY and ADD
 
-  COPY               ADD
-  ------------------ -----------------------
-  Simple file copy   Extra features
-  Preferred          Can extract tar files
+Both COPY and ADD are Dockerfile instructions used to copy files from the local machine into the Docker image. However, COPY is a simple file-copy command, whereas ADD provides additional features like extracting compressed files and downloading files from URLs (although downloading from URLs is generally discouraged).
+
+In production, COPY is preferred because it is simple, predictable, and follows Docker best practices. ADD should only be used when you specifically need its extra functionality.
 
 ------------------------------------------------------------------------
 
@@ -260,10 +262,15 @@ images, networks, and volumes.
 
 ## 22. Difference between docker run and docker start
 
-  docker run              docker start
-  ----------------------- ---------------------------
-  Creates new container   Starts existing container
-  Pulls image if needed   Uses existing container
+The main difference between docker run and docker start is that:
+
+docker run creates a new container from an image and starts it.
+docker start starts an existing stopped container.
+
+In simple words:
+
+Use docker run when you want to create a new container.
+Use docker start when you already have a container and just want to start it again.
 
 ------------------------------------------------------------------------
 
@@ -317,10 +324,12 @@ docker exec -it container_id bash
 
 ## 27. Difference between docker stop and docker kill
 
-  docker stop         docker kill
-  ------------------- ----------------
-  Graceful shutdown   Force shutdown
-  SIGTERM             SIGKILL
+The main difference between docker stop and docker kill is how they terminate a running container.
+
+docker stop gracefully stops the container by first sending a SIGTERM signal, giving the application time to finish ongoing work and shut down properly. If the container doesn't stop within the timeout period (default 10 seconds on Linux), Docker sends a SIGKILL signal to forcefully terminate it.
+docker kill immediately sends a SIGKILL signal (by default), which forcefully terminates the container without giving the application a chance to clean up.
+
+In production, docker stop is the preferred command because it allows applications to shut down safely.
 
 ------------------------------------------------------------------------
 

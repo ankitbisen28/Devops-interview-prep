@@ -104,7 +104,7 @@ Responsibilities:
 
 ## 9. What is kube-proxy?
 
-kube-proxy manages networking inside Kubernetes.
+kube-proxy is a Kubernetes networking component that runs on every node in a cluster. Its main job is to make Kubernetes Services work by routing network traffic to the correct Pods.
 
 It helps:
 - Route traffic
